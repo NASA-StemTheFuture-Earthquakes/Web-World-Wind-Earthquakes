@@ -12,4 +12,10 @@ public class DemoServ extends HttpServlet {
         String name = req.getParameter("name");
         pw.println("Welcome " + name);
     }
+
+    public void addEarthquakes()
+    {
+
+
+    }
 }

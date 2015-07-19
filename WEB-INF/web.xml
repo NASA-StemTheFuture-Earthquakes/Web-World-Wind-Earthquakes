@@ -1,13 +1,13 @@
 <web-app>
 
 <servlet>
-<servlet-name>sonoojaiswal</servlet-name>
+<servlet-name>someservlet</servlet-name>
 <servlet-class>DemoServ</servlet-class>
 </servlet>
 
 <servlet-mapping>
-<servlet-name>sonoojaiswal</servlet-name>
-<url-pattern>/welcome</url-pattern>
+<servlet-name>someservlet</servlet-name>
+<url-pattern>index.html</url-pattern>
 </servlet-mapping>
 
 </web-app>
