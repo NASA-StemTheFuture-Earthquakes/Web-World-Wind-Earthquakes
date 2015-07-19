@@ -7,7 +7,7 @@
 
 <servlet-mapping>
 <servlet-name>someservlet</servlet-name>
-<url-pattern>index.html</url-pattern>
+<url-pattern>/welcome</url-pattern>
 </servlet-mapping>
 
 </web-app>

@@ -27,9 +27,3 @@ function eventWindowLoaded() {
     //wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
     // wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
 }
-$(document).ready(function() {
-    $.get('someservlet', function (responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-        $('#somediv').text(responseText);
-        //
-    });
-});
