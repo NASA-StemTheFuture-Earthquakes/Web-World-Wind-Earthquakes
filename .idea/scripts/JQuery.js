@@ -37,8 +37,8 @@ function eventWindowLoaded()
 
 
         wwd.redraw();
-
-        //wwd.addLayer(new WorldWind.CompassLayer());
+     (wwd, Cylinder);
+    //wwd.addLayer(new WorldWind.CompassLayer());
         //wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
         // wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
 
@@ -329,7 +329,7 @@ function eventWindowLoaded()
     define(['http://worldwindserver.net/webworldwind/worldwindlib.js',
             'http://worldwindserver.net/webworldwind/examples/LayerManager.js',
             'http://worldwindserver.net/webworldwind/examples/CoordinateController.js',
-             'EarthquakeViewLayer'],
+            'EarthquakeViewLayer'],
         function (ww,
                   LayerManager,
                   CoordinateController,
@@ -360,22 +360,22 @@ function eventWindowLoaded()
             var arrowLay = new WorldWind.RenderableLayer()
 
             //displays info of highlighted earthquake in eData division, also sets the significant earthquake when clicked
-           /*/ var displayInfo = function (layer) {
+            /*/ var displayInfo = function (layer) {
 
-                //location to display the info
-                var display = $('#eData');
+             //location to display the info
+             var display = $('#eData');
 
-                //finds the highlighted renderable
-                for (var i in layer.renderables) {
+             //finds the highlighted renderable
+             for (var i in layer.renderables) {
 
-                    if (layer.renderables[i].highlighted) {
-                        display.empty();
-                        display.append('<p>' + layer.Manage.ParsedData[i].info + '</p>');
-                    }
+             if (layer.renderables[i].highlighted) {
+             display.empty();
+             display.append('<p>' + layer.Manage.ParsedData[i].info + '</p>');
+             }
 
-                }
-            };
-/*/
+             }
+             };
+             /*/
             var newLayer = new EarthquakeViewLayer(wwd, "Data Display");
             newLayer.Manage.setDisplayType('placemarks');
 
@@ -403,100 +403,29 @@ function eventWindowLoaded()
 
 
 
-                    var queryParamaterExtractor = new QueryParameterExtractor(queryParamsCallbacks);
-                    console.log(queryParamaterExtractor);
-                    console.log(queryParamaterExtractor.getParams());
+                var queryParamaterExtractor = new QueryParameterExtractor(queryParamsCallbacks);
+                console.log(queryParamaterExtractor);
+                console.log(queryParamaterExtractor.getParams());
 
-                    //parses and draws earthquakes on layer. Set minimum visible magnitude to the default value of the slider
-                    newLayer.Manage.parseDataArrayMag(magSlider.slider('getValue'));
+                //parses and draws earthquakes on layer. Set minimum visible magnitude to the default value of the slider
+                newLayer.Manage.parseDataArrayMag(magSlider.slider('getValue'));
 
-                    //animates most recent earthquake. the first renderable in the layer is the most recent earthquake
-                    newLayer.Manage.Animations.animate(newLayer.renderables[0]);
-                    console.log('quakes ', arg);
-
-
-                    //this is all commands panel stuff
+                //animates most recent earthquake. the first renderable in the layer is the most recent earthquake
+                newLayer.Manage.Animations.animate(newLayer.renderables[0]);
+                console.log('quakes ', arg);
 
 
 
+            });
 
+            //crude implementation to display the info of the earthquake highlighted
+            document.getElementById("canvasOne").onmousemove = function tss() {
+                displayInfo(newLayer);
+                displayInfo(newColumns);
+            };
 
-
-                    function getQuakePosition(quake) {
-                        return new WorldWind.Position(quake.lat, quake.long, 100000);
-                    }
-
-
-                    var buttonFunctionsForCPanel = [
-                        function (event) {
-                            if (OrIndexDtM(self.FocusedEarthquake) + 1 < self.layer.Manage.ParsedData.length) {
-                                self.FocusedEarthquake = OrIndexMtD(OrIndexDtM(self.FocusedEarthquake) + 1);
-                            }
-                            ShowChanges(commandsPanel.layer, self.FocusedEarthquake);
-                        },
-                        function (event) {
-                            if (OrIndexDtM(self.FocusedEarthquake) > 0) {
-                                self.FocusedEarthquake = OrIndexMtD(OrIndexDtM(self.FocusedEarthquake) - 1);
-                            }
-                            ShowChanges(commandsPanel.layer, self.FocusedEarthquake);
-                        },
-                        function (event) {
-                            if (self.FocusedEarthquake + 1 < self.layer.Manage.ParsedData.length) {
-                                self.FocusedEarthquake = self.FocusedEarthquake + 1;
-                            }
-                            ShowChanges(commandsPanel.layer, self.FocusedEarthquake);
-                        },
-                        function (event) {
-                            if (self.FocusedEarthquake - 1 > 0) {
-                                self.FocusedEarthquake = self.FocusedEarthquake - 1;
-                            }
-                            ShowChanges(commandsPanel.layer, self.FocusedEarthquake);
-                        },
-                        function (event) {
-                            if (!magnitudeTourManager.tourRun) {
-                                magnitudeTourManager.startTour();
-                                console.log('running');
-                                $(event.target).attr('class', 'btn btn-danger');
-                                $(event.target).text("Stop Touring");
-                                magnitudeTourManager.addCallback(function (t) {
-                                    $(event.target).attr('class', 'btn btn-primary');
-                                    $(event.target).text("Start Tour");
-                                });
-                            } else {
-                                magnitudeTourManager.stopTour();
-                                console.log('stopped');
-                                $(event.target).attr('class', 'btn btn-primary');
-                                $(event.target).text("Start Tour");
-                            }
-
-                        },
-                        function (event) {
-                            ShowChanges(commandsPanel.layer, self.FocusedEarthquake = 0);
-                        }
-                    ];
-                    for (var i = 0; i < buttonFunctionsForCPanel.length; i++) {
-                        commandsPanel.addFunctionToButton(buttonsForCPanel[i][0], buttonFunctionsForCPanel[i]);
-                    }
-                    ;
-
-                    commandsPanel.FocusedEarthquake = 0;
-                    commandsPanel.synchronizeLayerList();
-                    commandsPanel.initMouseClickListener();
-
-                    // Uncomment to initiate tours
-                    //magnitudeTourManager.startTour();
-                    //timeTourManager.startTour();
-
-                });
-
-                //crude implementation to display the info of the earthquake highlighted
-                document.getElementById("canvasOne").onmousemove = function tss() {
-                    displayInfo(newLayer);
-                    displayInfo(newColumns);
-                };
-
-                // Create a layer manager for controlling layer visibility.
-                var layerManger = new LayerManager(wwd);
+            // Create a layer manager for controlling layer visibility.
+            var layerManager = new LayerManager(wwd);
 
 
             // Draw the World Window for the first time.
@@ -509,75 +438,60 @@ function eventWindowLoaded()
             var highlightController = new WorldWind.HighlightController(wwd);
 
 
-        });
+            /*
+             The following code can be used to parse data form the server.
+             This code is not in a module format, and thus must be pasted to the desired location
+             */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- The following code can be used to parse data form the server.
- This code is not in a module format, and thus must be pasted to the desired location
- */
-
-
-var dataReturn = [];       //This  will contain all the parsed data
-var xmlhttp = new XMLHttpRequest();
-var url = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=500";
+            var dataReturn = [];       //This  will contain all the parsed data
+            var xmlhttp = new XMLHttpRequest();
+            var url = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=500";
 // The earthquake data is retrieved from the above URL using HTTP get.
 
 
 
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var data = JSON.parse(xmlhttp.responseText);
-        myFunction(data);
-    }
-}
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    myFunction(data);
+                }
+            }
 
-xmlhttp.open("GET", url, true);
-xmlhttp.send();
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
 
-function myFunction(data) {
+            function myFunction(data) {
 
-    var earthquakes = data['features'];
+                var earthquakes = data['features'];
 
-    for (i = 0; i< earthquakes.length; i++ ){
-        var quake = earthquakes[i];
-        var geometry = quake['geometry'];
-        var logistics = quake['properties'];
-
-
-        var earthquake = {
-            magnitude: Number(logistics['mag']),
-            date_time: logistics['time'], 		// this variable contains time in millisecond since time 0 (1.1.1970)
-
-            depth: Number(geometry['coordinates'][2]),
-            latitude: Number(geometry['coordinates'][1]),
-            longitude: Number(geometry['coordinates'][0])
-        };
-
-        // How long ago the earthquake occurred in terms of days
-        earthquake.ageDay = Math.abs((new Date().getTime()) - new Date(earthquake.date_time).getTime()) /
-            (24 * 60 * 60 * 1000);
-        //How long ago the earthquake occured in terms of hours
-        earthquake.ageHours = Math.floor(Math.abs((new Date().getTime() - new Date(earthquake.date_time).getTime())
-            / (60 * 60 * 1000)));
+                for (i = 0; i< earthquakes.length; i++ ) {
+                    var quake = earthquakes[i];
+                    var geometry = quake['geometry'];
+                    var logistics = quake['properties'];
 
 
-        dataReturn.push(earthquake);
+                    var earthquake = {
+                        magnitude: Number(logistics['mag']),
+                        date_time: logistics['time'], 		// this variable contains time in millisecond since time 0 (1.1.1970)
 
-    }
+                        depth: Number(geometry['coordinates'][2]),
+                        latitude: Number(geometry['coordinates'][1]),
+                        longitude: Number(geometry['coordinates'][0])
+                    };
+
+                    // How long ago the earthquake occurred in terms of days
+                    earthquake.ageDay = Math.abs((new Date().getTime()) - new Date(earthquake.date_time).getTime()) /
+                        (24 * 60 * 60 * 1000);
+                    //How long ago the earthquake occured in terms of hours
+                    earthquake.ageHours = Math.floor(Math.abs((new Date().getTime() - new Date(earthquake.date_time).getTime())
+                        / (60 * 60 * 1000)));
 
 
-}
+                    dataReturn.push(earthquake);
+
+                }
+
+
+            }
+        });

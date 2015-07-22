@@ -50,10 +50,10 @@
       <file leaf-file-name="JQuery.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/scripts/JQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6964286">
-              <caret line="526" column="0" selection-start-line="526" selection-start-column="0" selection-end-line="526" selection-end-column="0" />
+            <state vertical-scroll-proportion="10.355159">
+              <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
               <folding>
-                <element signature="e#15132#15610#0" expanded="false" />
+                <element signature="e#15148#15626#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -549,12 +549,12 @@
       <workItem from="1437046291237" duration="1340000" />
       <workItem from="1437083297618" duration="3106000" />
       <workItem from="1437131922412" duration="2774000" />
-      <workItem from="1437328722941" duration="24071000" />
+      <workItem from="1437328722941" duration="24690000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34052000" />
+    <option name="totallyTimeSpent" value="34671000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="947" extended-state="0" />
@@ -999,10 +999,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/scripts/JQuery.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6964286">
-          <caret line="526" column="0" selection-start-line="526" selection-start-column="0" selection-end-line="526" selection-end-column="0" />
+        <state vertical-scroll-proportion="10.355159">
+          <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
           <folding>
-            <element signature="e#15132#15610#0" expanded="false" />
+            <element signature="e#15148#15626#0" expanded="false" />
           </folding>
         </state>
       </provider>
