@@ -35,7 +35,11 @@ function eventWindowLoaded() {
 
 
     /*/
-     createLayer(wwd);
+    var Layer =  createLayer(wwd);
+    Layer.enabled = true;
+    Layer.alwaysOnTop= true;
+    wwd.addLayer(Layer);
+   // wwd.redraw();
      //wwd.addLayer(new WorldWind.CompassLayer());
      //wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
      // wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
@@ -112,7 +116,7 @@ function eventWindowLoaded() {
                     size = Array[i].magnitude * 5, c = size / 2 - 0.5, innerRadius = 0, outerRadius = Array[i].magnitude * 2.2;
                 canvas.width = size;
                 canvas.height = size;
-                ctx2d.fillStyle =new WorldWind.Color(1, 1, 1, .55)
+                ctx2d.fillStyle =new WorldWind.Color(1, 1, 1, 1)
                 //ctx2d.fillStyle = eLayer.Draw.GetColorSpectrum(Array[i].age / eLayer.Manage.Data[eLayer.Manage.Data.length - 1].age, colorSpect)
 
 
@@ -127,7 +131,7 @@ function eventWindowLoaded() {
                 // Create the placemark attributes for the placemark.
                 placemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
                 placemarkAttributes.imageScale = 1;
-                placemarkAttributes.imageColor = new WorldWind.Color(1, 1, 1, .55)
+                placemarkAttributes.imageColor = new WorldWind.Color(1, 1, 1, 1)
 
                 // Wrap the canvas created above in an ImageSource object to specify it as the placemark image source.
                 placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
@@ -145,7 +149,7 @@ function eventWindowLoaded() {
             }
             eLayer.Manage = {
 
-               
+
 
                 //adds things to the layer
                 Draw: {
@@ -172,11 +176,11 @@ function eventWindowLoaded() {
                     },
                     //draws all the earthquakes in eLayer.Manage.ParsedData onto the layer
                     Placemarks: function () {
-                        eLayer.Manage.Animations.canAnimate = true;
+
                         eLayer.Layer.clearLayer();
                         var placemark, highlightAttributes,
-                            placemarkAttributes = new WorldWind.PlacemarkAttributes(null),
-                            Array = eLayer.Manage.ParsedData;
+                            placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
+
                         var colorSpect = [[255, 0, 0], [0, 255, 0]];
 
 
@@ -189,12 +193,12 @@ function eventWindowLoaded() {
                             canvas.width = size;
                             canvas.height = size;
 
-                            ctx2d.fillStyle = eLayer.Manage.Draw.GetColorSpectrum(Array[i].age / eLayer.Manage.Data[eLayer.Manage.Data.length - 1].age, colorSpect)
+                            ctx2d.fillStyle = new WorldWind.Color(r / 255, g / 255, b / 255, 1);
                             ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
                             ctx2d.fill();
 
                             // Create the placemark.
-                            placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].lat, Array[i].long, 1e2));
+                            placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].latitude, Array[i].longitude, 1e2));
                             placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
 
                             // Create the placemark attributes for the placemark.
@@ -224,136 +228,12 @@ function eventWindowLoaded() {
 
 
             return eLayer
+            eLayer.alwaysOnTop = true;
+            eLayer.enabled = true;
+            wwd.addLayer(eLayer);
         }
 
             return EarthquakeLayer;
 
     }
-
-
-    /**
-     * Created by Matthew on 6/16/2015.
-     */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    define(['http://worldwindserver.net/webworldwind/worldwindlib.js',
-            'http://worldwindserver.net/webworldwind/examples/LayerManager.js',
-            'http://worldwindserver.net/webworldwind/examples/CoordinateController.js',
-            'EarthquakeViewLayer'],
-        function (ww,
-                  LayerManager,
-                  CoordinateController,
-                  EarthquakeViewLayer) {
-            "use strict";
-            // Tell World Wind to log only warnings.
-            WorldWind.Logger.setLoggingLevel(WorldWind.Logger.LEVEL_WARNING);
-
-            // Create the World Window.
-
-
-            //displays info of highlighted earthquake in eData division, also sets the significant earthquake when clicked
-            /*/ var displayInfo = function (layer) {
-
-             //location to display the info
-             var display = $('#eData');
-
-             //finds the highlighted renderable
-             for (var i in layer.renderables) {
-
-             if (layer.renderables[i].highlighted) {
-             display.empty();
-             display.append('<p>' + layer.Manage.ParsedData[i].info + '</p>');
-             }
-
-             }
-             };
-             /*/
-            console.log('Loading USGS Data');
-            var newLayer = new EarthquakeViewLayer(wwd, "Data Display");
-            newLayer.Manage.setDisplayType('placemarks');
-
-            //         var newColumns = new EarthquakeViewLayer(wwd, "Data Display Columns");
-            //         newColumns.Manage.setDisplayType('columns');
-
-            //uses the REST API available on the USGS website to retrieve
-            //earthquake data from the last 30 days
-
-
-
-
-            //waits for the data to be retrieved and parsed and then passes it to the earthquake layer.
-            dataRetriever.retrieveRecords(function (arg) {
-                console.log('Loaded');
-
-                //passes the retrieved data to the layer
-                newLayer.Manage.createDataArray(arg);
-
-                wwd.addLayer(newLayer);
-                newColumns.Manage.createDataArray(arg);
-                wwd.addLayer(newColumns);
-                newColumns.enabled = false
-
-                var queryParamaterExtractor = new QueryParameterExtractor(queryParamsCallbacks);
-                console.log(queryParamaterExtractor);
-                console.log(queryParamaterExtractor.getParams());
-
-                //parses and draws earthquakes on layer. Set minimum visible magnitude to the default value of the slider
-                newLayer.Manage.parseDataArrayMag(magSlider.slider('getValue'));
-
-                //animates most recent earthquake. the first renderable in the layer is the most recent earthquake
-                newLayer.Manage.Animations.animate(newLayer.renderables[0]);
-                console.log('quakes ', arg);
-
-
-            });
-
-            //crude implementation to display the info of the earthquake highlighted
-            document.getElementById("canvasOne").onmousemove = function tss() {
-                displayInfo(newLayer);
-                displayInfo(newColumns);
-            };
-
-            // Create a layer manager for controlling layer visibility.
-            var layerManager = new LayerManager(wwd);
-
-
-            // Draw the World Window for the first time.
-            wwd.redraw();
-
-            // Create a coordinate controller to update the coordinate overlay elements.
-            var coordinateController = new CoordinateController(wwd);
-
-            //
-            var highlightController = new WorldWind.HighlightController(wwd);
-
-
-            /*
-             The following code can be used to parse data form the server.
-             This code is not in a module format, and thus must be pasted to the desired location
-             */
-
-
-        });
-
-
 
