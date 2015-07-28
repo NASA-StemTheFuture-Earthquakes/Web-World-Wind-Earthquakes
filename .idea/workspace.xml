@@ -55,16 +55,16 @@
       <file leaf-file-name="JQuery.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/scripts/JQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8412371">
-              <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.78969073">
+              <caret line="245" column="1" selection-start-line="245" selection-start-column="1" selection-end-line="245" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="worldwindlib.js" pinned="false" current-in-tab="false">
-        <entry file="http://worldwindserver.net/webworldwind/worldwindlib.js">
-          <provider selected="true" editor-type-id="httpFileEditor">
+      <file leaf-file-name="41" pinned="false" current-in-tab="false">
+        <entry file="mock://vm:41">
+          <provider selected="true" editor-type-id="vmFileEditor">
             <state />
           </provider>
         </entry>
@@ -128,6 +128,7 @@
         <option value="maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="chrome-extension://gighmmpiobklfepjocnamgkkbiglidom/adblock_start_common.js" />
+        <option value="vm:41" />
         <option value="$PROJECT_DIR$/.idea/scripts/JQuery.js" />
       </list>
     </option>
@@ -561,12 +562,12 @@
       <workItem from="1437083297618" duration="3106000" />
       <workItem from="1437131922412" duration="2774000" />
       <workItem from="1437328722941" duration="31236000" />
-      <workItem from="1437920261012" duration="12232000" />
+      <workItem from="1437920261012" duration="12900000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53449000" />
+    <option name="totallyTimeSpent" value="54117000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="947" extended-state="6" />
@@ -659,8 +660,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/.idea/scripts/JQuery.js</url>
-          <line>8</line>
-          <option name="timeStamp" value="9" />
+          <line>42</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -674,7 +675,7 @@
           <properties />
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
@@ -1121,8 +1122,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/scripts/JQuery.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8412371">
-          <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.78969073">
+          <caret line="245" column="1" selection-start-line="245" selection-start-column="1" selection-end-line="245" selection-end-column="1" />
           <folding />
         </state>
       </provider>

@@ -22,8 +22,8 @@ function eventWindowLoaded() {
 
         wwd.addLayer(layers[i].layer);
     }
-    //var coord = new WorldWind.placePoint(80,180);
-    /*/  var placemarkLayer = new WorldWind.RenderableLayer("Placemarks");
+    /*/var coord = new WorldWind.placePoint(80,180);
+      var placemarkLayer = new WorldWind.RenderableLayer("Placemarks");
      var placemark = new WorldWind.Placemark(new WorldWind.Position(0.0, 0.0, 1e2));
      placemark.enabled = true;
      placemark.label = "glfsdfk";
@@ -54,7 +54,7 @@ function eventWindowLoaded() {
      * Created by tylerwhitlock on 7/21/15.
      */
 
-/*/
+
     function createLayer(wwd) {
          "use strict"
          var EarthquakeLayer;
@@ -243,4 +243,4 @@ function myFunction(Array,data) {
     }
 
 
-}/*/
+}
