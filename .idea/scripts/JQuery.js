@@ -57,9 +57,9 @@ function eventWindowLoaded() {
 
     function createLayer(wwd) {
          "use strict"
-         var EarthquakeLayer;
-         EarthquakeLayer = function (worldWindow, name) {
-             var wwd = worldWindow;
+          var EarthquakeLayer = creation(wwd, "Earthquakes");
+         function creation(wwd, name) {
+
              var eLayer = new WorldWind.RenderableLayer(name); //creates the layer on which the earthquakes will be mapped
              var dContext = new worldWindow.drawContext;
 
@@ -72,14 +72,19 @@ function eventWindowLoaded() {
              var Array = [];
 
 
-             var data = JSON.parse(xmlhttp.responseText);
-             if (data) {
-                 myFunction(Array, data);
-                 if (Array != null) {
-                     xmlhttp.open("GET", url, true);
-                     xmlhttp.send();
+             var data;
+             xmlhttp.onreadystatechange = function() {
+                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                     var data = JSON.parse(xmlhttp.responseText);
+                     myFunction(data);
+                 }
+             }
+             data = 1;
 
-
+             xmlhttp.open("GET", url, true);
+             xmlhttp.send();
+                if(data)
+                {
                      var colorSpect = [[255, 0, 0], [0, 255, 0]];
 
 
@@ -122,7 +127,7 @@ function eventWindowLoaded() {
                      }
                  }
 
-             }
+
 
              eLayer.Manage = {
 
@@ -169,7 +174,7 @@ function eventWindowLoaded() {
                              canvas.width = size;
                              canvas.height = size;
 
-                             ctx2d.fillStyle = new WorldWind.Color(155,155,155, 1);
+                             ctx2d.fillStyle = new WorldWind.Color(155, 155, 155, 1);
                              ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
                              ctx2d.fill();
 
@@ -200,6 +205,7 @@ function eventWindowLoaded() {
                      }
                  }
              }
+
 
 
              return eLayer
