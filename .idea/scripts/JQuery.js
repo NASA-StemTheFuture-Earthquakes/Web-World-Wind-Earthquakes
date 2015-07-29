@@ -60,8 +60,8 @@ function eventWindowLoaded() {
           var EarthquakeLayer = creation(wwd, "Earthquakes");
          function creation(wwd, name) {
 
-             var eLayer = new WorldWind.RenderableLayer(name); //creates the layer on which the earthquakes will be mapped
-             var dContext = new worldWindow.drawContext;
+            // var eLayer = new WorldWind.RenderableLayer(name); //creates the layer on which the earthquakes will be mapped
+            // var dContext = new worldWindow.drawContext;
 
              var placemark, highlightAttributes,
                  placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
@@ -73,17 +73,35 @@ function eventWindowLoaded() {
 
 
              var data;
-             xmlhttp.onreadystatechange = function() {
-                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                     var data = JSON.parse(xmlhttp.responseText);
-                     myFunction(data);
-                 }
-             }
-             data = 1;
 
-             xmlhttp.open("GET", url, true);
-             xmlhttp.send();
-                if(data)
+                 $.ajax({
+                         url:url,
+                     dataType: 'json',
+                         data: '',
+                     success: function(json){
+
+
+                             if(!json)
+                             json = xmlhttp.responseText;
+                             data = json.features;
+                             myFunction(Array, data);
+
+                 },
+                 error : function(XMLHttpRequest, textStatus, errorThrown) {
+                     $('#sitedesc').text('Error. Site Number was probably invalid or not a real-time site.');
+                     $('#discharge').val('');
+                     $('#date').val('');
+                     $('#time').val('');
+                     $('#tz').val('');
+                 }
+             });
+
+                if(!data)
+                {
+                    //xmlhttp.open("GET", url, true);
+                    //xmlhttp.send();
+                }
+                else
                 {
                      var colorSpect = [[255, 0, 0], [0, 255, 0]];
 
@@ -220,7 +238,7 @@ function eventWindowLoaded() {
      }
 function myFunction(Array,data) {
 
-    var earthquakes = data['features'];
+    var earthquakes = data;
 
     for (var i = 0; i < earthquakes.length; i++) {
         var quake = earthquakes[i];
