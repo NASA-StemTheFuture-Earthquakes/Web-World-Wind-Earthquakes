@@ -60,7 +60,7 @@ function createLayer(wwd) {
     var EarthquakeLayer = creation(wwd, "Earthquakes");
     function creation(wwd, name) {
 
-         var eLayer = new WorldWind.RenderableLayer(name); //creates the layer on which the earthquakes will be mapped
+
         // var dContext = new worldWindow.drawContext;
 
         var placemark, highlightAttributes,
@@ -115,130 +115,123 @@ function createLayer(wwd) {
         }
 
         function nextStep(wwd) {
-            var eLayer = new WorldWind.RenderableLayer();
+            var eLayer = new WorldWind.RenderableLayer(name); //creates the layer on which the earthquakes will be mapped
             var colorSpect = [[255, 0, 0], [0, 255, 0]];
 
 
+            /*/ for (var i = 0; i < Array.length; i++) {
+             // Create the custom image for the placemark for each earthquake.
+             var canvas = document.createElement("canvas"),
+             ctx2d = canvas.getContext("2d"),
+             size = Array[i].magnitude * 5, c = size / 2 - 0.5, innerRadius = 0, outerRadius = Array[i].magnitude * 2.2;
+             canvas.width = size;
+             canvas.height = size;
+             ctx2d.fillStyle = new WorldWind.Color(1, 1, 1, 1)
+             //ctx2d.fillStyle = eLayer.Draw.GetColorSpectrum(Array[i].age / eLayer.Manage.Data[eLayer.Manage.Data.length - 1].age, colorSpect)
+
+
+             ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
+             ctx2d.fill();
+
+             // Create the placemark.
+             placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].latitude, Array[i].longitude, 1e2));
+             placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
+
+             // Create the placemark attributes for the placemark.
+             placemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
+             placemarkAttributes.imageScale = 1;
+             placemarkAttributes.imageColor = new WorldWind.Color(1, 1, 1, 1)
+
+             // Wrap the canvas created above in an ImageSource object to specify it as the placemark image source.
+             placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
+             placemark.attributes = placemarkAttributes;
+             // Create the highlight attributes for this placemark. Note that the normal attributes are specified as
+             // the default highlight attributes so that all properties are identical except the image scale. You could
+             // instead vary the color, image, or other property to control the highlight representation.
+             highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
+             highlightAttributes.imageScale = 1.2;
+             highlightAttributes.imageSource = new WorldWind.ImageSource(canvas);
+             placemark.highlightAttributes = highlightAttributes;
+
+             // Add the placemark to the layer.
+             eLayer.addRenderable(placemark);
+             /*/
+            var images = [
+                "plain-black.png",
+                "plain-blue.png",
+                "plain-brown.png",
+                "plain-gray.png",
+                "plain-green.png",
+                "plain-orange.png",
+                "plain-purple.png",
+                "plain-red.png",
+                "plain-teal.png",
+                "plain-white.png",
+                "plain-yellow.png",
+                "castshadow-black.png",
+                "castshadow-blue.png",
+                "castshadow-brown.png",
+                "castshadow-gray.png",
+                "castshadow-green.png",
+                "castshadow-orange.png",
+                "castshadow-purple.png",
+                "castshadow-red.png",
+                "castshadow-teal.png",
+                "castshadow-white.png"
+            ];
+
+            var pinLibrary = WorldWind.configuration.baseUrl + "images/pushpins/", // location of the image files
+                placemark,
+                placemarkAttributes = new WorldWind.PlacemarkAttributes(null),
+                highlightAttributes,
+                placemarkLayer = new WorldWind.RenderableLayer("Placemarks");
+
+            // Set up the common placemark attributes.
+            placemarkAttributes.imageScale = 1;
+            placemarkAttributes.imageOffset = new WorldWind.Offset(
+                WorldWind.OFFSET_FRACTION, 0.3,
+                WorldWind.OFFSET_FRACTION, 0.0);
+            placemarkAttributes.imageColor = WorldWind.Color.WHITE;
+            placemarkAttributes.labelAttributes.offset = new WorldWind.Offset(
+                WorldWind.OFFSET_FRACTION, 0.5,
+                WorldWind.OFFSET_FRACTION, 1.0);
+            placemarkAttributes.labelAttributes.color = WorldWind.Color.YELLOW;
+            placemarkAttributes.drawLeaderLine = true;
+            placemarkAttributes.leaderLineAttributes.outlineColor = WorldWind.Color.RED;
+
+            // For each placemark image, create a placemark with a label.
             for (var i = 0; i < Array.length; i++) {
-                // Create the custom image for the placemark for each earthquake.
-                var canvas = document.createElement("canvas"),
-                    ctx2d = canvas.getContext("2d"),
-                    size = Array[i].magnitude * 5, c = size / 2 - 0.5, innerRadius = 0, outerRadius = Array[i].magnitude * 2.2;
-                canvas.width = size;
-                canvas.height = size;
-                ctx2d.fillStyle = new WorldWind.Color(1, 1, 1, 1)
-                //ctx2d.fillStyle = eLayer.Draw.GetColorSpectrum(Array[i].age / eLayer.Manage.Data[eLayer.Manage.Data.length - 1].age, colorSpect)
-
-
-                ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
-                ctx2d.fill();
-
-                // Create the placemark.
-                placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].latitude, Array[i].longitude, 1e2));
+                // Create the placemark and its label.
+                placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].latitude, Array[i].longitude, 1e2), true, null);
+                placemark.label = "Earthquake " + Array[i].toString() + "\n"
+                    + "Latitude " + placemark.position.latitude.toPrecision(4).toString() + "\n"
+                    + "Longitude " + placemark.position.longitude.toPrecision(5).toString();
                 placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
 
-                // Create the placemark attributes for the placemark.
+                // Create the placemark attributes for this placemark. Note that the attributes differ only by their
+                // image URL.
                 placemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-                placemarkAttributes.imageScale = 1;
-                placemarkAttributes.imageColor = new WorldWind.Color(1, 1, 1, 1)
-
-                // Wrap the canvas created above in an ImageSource object to specify it as the placemark image source.
-                placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
+                placemarkAttributes.imageSource = pinLibrary + images[i];
                 placemark.attributes = placemarkAttributes;
+
                 // Create the highlight attributes for this placemark. Note that the normal attributes are specified as
                 // the default highlight attributes so that all properties are identical except the image scale. You could
                 // instead vary the color, image, or other property to control the highlight representation.
                 highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
                 highlightAttributes.imageScale = 1.2;
-                highlightAttributes.imageSource = new WorldWind.ImageSource(canvas);
                 placemark.highlightAttributes = highlightAttributes;
 
                 // Add the placemark to the layer.
-                eLayer.addRenderable(placemark);
+                placemarkLayer.addRenderable(placemark);
             }
-            eLayer.Manage.Draw.Placemarks();
+
+            // Add the placemarks layer to the World Window's layer list.
+            wwd.addLayer(placemarkLayer);
+
+            wwd.redraw();
+
+            return placemarkLayer
         }
-
-        eLayer.Manage = {
-
-
-            //adds things to the layer
-            Draw: {
-                //returns color based on the array and the fraction.
-                GetColorSpectrum: function (fraction, spectrumArrayColors, wwS) {
-                    var format = (wwS === undefined) ? true : false;
-                    //array looks like [[r,g,b],[r,g,b],...
-                    var divisions = spectrumArrayColors.length - 1;
-                    for (var i = 0; i < divisions; i++) {
-                        if (fraction >= i / divisions && fraction <= (i + 1) / divisions) {
-                            var r = spectrumArrayColors[i][0] + fraction * (spectrumArrayColors[i + 1][0] - spectrumArrayColors[i][0]),
-                                g = spectrumArrayColors[i][1] + fraction * (spectrumArrayColors[i + 1][1] - spectrumArrayColors[i][1]),
-                                b = spectrumArrayColors[i][2] + fraction * (spectrumArrayColors[i + 1][2] - spectrumArrayColors[i][2]);
-
-                            if (format) {
-                                return "rgb(" + Math.round(r) + "," + Math.round(g) + "," + Math.round(b) + ")";
-                            } else {
-                                return new WorldWind.Color(r / 255, g / 255, b / 255, 1)
-                            }
-
-                        }
-                    }
-
-                },
-                //draws all the earthquakes in eLayer.Manage.ParsedData onto the layer
-                Placemarks: function () {
-
-
-                    var placemark, highlightAttributes,
-                        placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
-
-                    var colorSpect = [[255, 0, 0], [0, 255, 0]];
-
-
-                    //adds all the earthquakes as renderables to the layer
-                    for (var i = 0; i < Array.length; i++) {
-                        // Create the custom image for the placemark for each earthquake.
-                        var canvas = document.getElementsByClassName("canvasOne"),  //maybe **********
-                            ctx2d = canvas.getContext("2d"),
-                            size = Array[i].magnitude * 5, c = size / 2 - 0.5, innerRadius = 0, outerRadius = Array[i].magnitude * 2.2;
-                        canvas.width = size;
-                        canvas.height = size;
-
-                        ctx2d.fillStyle = new WorldWind.Color(155, 155, 155, 1);
-                        ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
-                        ctx2d.fill();
-
-                        // Create the placemark.
-                        placemark = new WorldWind.Placemark(new WorldWind.Position(Array[i].latitude, Array[i].longitude, 1e2));
-                        placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-
-                        // Create the placemark attributes for the placemark.
-                        placemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-                        placemarkAttributes.imageScale = 1;
-                        placemarkAttributes.imageColor = new WorldWind.Color(1, 1, 1, .55)
-
-                        // Wrap the canvas created above in an ImageSource object to specify it as the placemark image source.
-                        placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
-                        placemark.attributes = placemarkAttributes;
-                        // Create the highlight attributes for this placemark. Note that the normal attributes are specified as
-                        // the default highlight attributes so that all properties are identical except the image scale. You could
-                        // instead vary the color, image, or other property to control the highlight representation.
-                        highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-                        highlightAttributes.imageScale = 1.2;
-                        highlightAttributes.imageSource = new WorldWind.ImageSource(canvas);
-                        placemark.highlightAttributes = highlightAttributes;
-
-                        // Add the placemark to the layer.
-                        eLayer.addRenderable(placemark);
-                    }
-                    wwd.redraw();
-                }
-            }
-        }
-
-
-
-        return eLayer
     };
 
     if (EarthquakeLayer != null) {
