@@ -4,7 +4,7 @@
 
  */
 
-
+"use strict";
 
 function createPlaceMarks(wwd, earthQuakes )
 {
@@ -25,7 +25,7 @@ function createPlaceMarks(wwd, earthQuakes )
 
 
     // Set up the common placemark attributes.
-    placemarkAttributes.imageScale = 2;
+    placemarkAttributes.imageScale = 0.125;
     placemarkAttributes.imageOffset = new WorldWind.Offset(
         WorldWind.OFFSET_FRACTION,0.5,
         WorldWind.OFFSET_FRACTION, 0.5);
@@ -53,11 +53,18 @@ function createPlaceMarks(wwd, earthQuakes )
             new WorldWind.Position(earthQuakes[i].latitude, earthQuakes[i].longitude, 1e2), true, null);
 
 
-        //This label will appear right on top of the circle object
-        placemark.label = "Magnitude: " + earthQuakes[i].magnitude + "\n" +
-            "Lat " + placemark.position.latitude.toPrecision(4).toString() + "\n"
-            + "Lon " + placemark.position.longitude.toPrecision(5).toString();
+        //This label will appear on top of the circle object
+        placemark.label = " " + "\n" + "Mag:" + earthQuakes[i].magnitude;
+
         placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
+
+
+        // Above this distance shapes will get inversely proportional to the eye distance to give distance affect.
+        // Zooming out up to this eye distance makes shapes increase size.
+        placemark.eyeDistanceScalingThreshold  = 1e6 * 30;
+
+        // Label will not be visible above this eye distance. This makes the globe clean and nice to look at.
+        placemark.eyeDistanceScalingLabelThreshold =  (placemark.eyeDistanceScalingThreshold )/100;
 
         //THis label will be used to print the information in a dialog box
         placemark.fullLabel = getInformationToDisplay(earthQuakes[i]);
@@ -73,7 +80,7 @@ function createPlaceMarks(wwd, earthQuakes )
         // Create the highlight attributes for this placemark. Note that the normal attributes are specified as
         // the default highlight attributes so that all properties are identical except the image scale.
         highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-        highlightAttributes.imageScale = 3;
+        highlightAttributes.imageScale = 0.25;
         placemark.highlightAttributes = highlightAttributes;
 
         // Add the placemark to the layer.
@@ -141,25 +148,57 @@ function createPlaceMarks(wwd, earthQuakes )
 
     // Listen for mouse moves and highlight the placemarks that the cursor rolls over.
     wwd.addEventListener("mousemove", handlePick);
-    var layerManger = new LayerManager(wwd);
+
     // Listen for taps on mobile devices and highlight the placemarks that the user taps.
     var tapRecognizer = new WorldWind.TapRecognizer(wwd, handlePick);
 }
 
+
+
+/*   -----------------------------------------------------------------------
+ @Description: The function will return a color based on how old the earthquake is
+ and whether or not the color needs to be transparent.
+
+ @Param: time
+ Its the time of earthquake in milliseconds with reference to Zero Time ( 1-1-1970)
+
+ @Param:transparent
+ A boolean value indicating wether or not the color needs to be transparent.
+
+ @return:  Color
+ its the color object
+
+ --------------------------------------------------------------------------------*/
+
+
+
 function getColor(time, transparent)
 {
     if(!transparent){
+
+        // If the earthquake happened less than 12 hours ago, then draw RED
         if(new Date().getTime() - time < 1000 * 60 * 60 * 12)
             return WorldWind.Color.RED;
+
+        //if earthquake happened less than 24 hours ago, then Draw Yello
         else if(new Date().getTime() - time < 1000 * 60 * 60 * 24)
             return WorldWind.Color.YELLOW;
         else
+        // Else draw Green
             return WorldWind.Color.GREEN;
-
     }
     else
     {
-        return new WorldWind.Color(255,0,0,.35);
+        // If the earthquake happened less than 12 hours ago, then draw transparent RED
+        if(new Date().getTime() - time < 1000 * 60 * 60 * 12)
+            return new WorldWind.Color(1,0,0,0.75);
+
+        //if earthquake happened less than 24 hours ago, then Draw transparent Yellow
+        else if(new Date().getTime() - time < 1000 * 60 * 60 * 24)
+            return new WorldWind.Color(1,1,0,0.75);
+        else
+        // Else draw transparent Green
+            return new WorldWind.Color(0,1,0,0.75);
     }
 
 }
