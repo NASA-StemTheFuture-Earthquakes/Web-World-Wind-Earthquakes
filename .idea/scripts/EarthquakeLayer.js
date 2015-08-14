@@ -133,7 +133,7 @@ function createPlaceMarks(wwd, earthQuakes )
                 // Detect whether the placemark's label was picked. If so, the "labelPicked" property is true
                 if (pickList.objects[p].labelPicked) {
 
-                    document.getElementById("information").innerHTML = pickList.objects[p].userObject.fullLabel;
+                    document.getElementById("eData").innerHTML = pickList.objects[p].userObject.fullLabel;
 
 
                 }
