@@ -14,7 +14,10 @@
         <script src=".idea/scripts/JQuery.js" type="text/javascript"></script>
         <script src=".idea/scripts/EarthquakeLayer.js" type="text/javascript"></script>
         <script src=".idea/scripts/UGSDataRetriever.js" type="text/javascript"></script>
-        <script src=".idea/scripts/LayerManager.js" type="text/javascript"></script>
+
+        <!-- Include requireJS to control Modules -->
+        <script data-main=".idea/scripts/Main.js"
+                src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
         <style>
             #magnitudeSlider .slider-selection {
                 background: #BABABA;
@@ -58,19 +61,11 @@
 
                     <div id="Panels">
 
-                        <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="collapse" data-target="#cp">Control Panel<span class="caret"></span></button>
 
-                        <div id="cp" class="collapse">
-
-                            <div class="list-group" id="CPanel">
-
-                            </div>
-
-                        </div>
 
                     </div>
 
-
+                    <!---Layers--->
                     <br>
                     <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="collapse" data-target="#LAYER">Layers<span class="caret"></span></button>
                     <div id="LAYER" class="collapse">
@@ -126,79 +121,15 @@
 
     <script>
 
+        $('body').css('background-image', 'url("http://www.nasa.gov/images/content/627360main_potw1209a.jpg")');
 
-        // instantiate the slider
-        var slider = new Slider('#magnitudeSlider', {
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }
-        });
+        
 
 
 
 
-        // Register an event listener to be called when the page is loaded.
-        window.addEventListener("load", eventWindowLoaded, false);
-        function eventWindowLoaded() {
-            // Create a World Window for the canvas.
-            var wwd = new WorldWind.WorldWindow("canvasOne");
 
 
-            // Add some image layers to the World Window's globe.
-            var layers = [
-                {layer: new WorldWind.BMNGLayer(), enabled: true},
-                {layer: new WorldWind.BMNGLandsatLayer(), enabled: false},
-                {layer: new WorldWind.BingAerialLayer(null), enabled: false},
-                {layer: new WorldWind.BingAerialWithLabelsLayer(null), enabled: false},
-                {layer: new WorldWind.BingRoadsLayer(null), enabled: false},
-                {layer: new WorldWind.CompassLayer(), enabled: true},
-                {layer: new WorldWind.CoordinatesDisplayLayer(wwd), enabled: true},
-                {layer: new WorldWind.ViewControlsLayer(wwd), enabled: true}
-            ];
-
-            // Create those layers.
-            for (var l = 0; l < layers.length; l++) {
-                layers[l].layer.enabled = layers[l].enabled;
-                wwd.addLayer(layers[l].layer);
-            }
-
-            //Set the background image
-            $('body').css('background-image', 'url("http://www.nasa.gov/images/content/627360main_potw1209a.jpg")');
-            //get the earthquakes from usgs server
-
-
-            //when slider value is set filter earthquakes by minimum magnitude
-            // Now here we need to call the earthquake function to only display earthquakes greater than sliderValue
-            slider.on('slideStop',function(arg){
-                var newearthquakelist = [];
-                for(var i = 0; i < earthQuakes.length; i++)
-                {
-                    if(earthQuakes[i].magnitude >= arg)
-                    {
-                        newearthquakelist.push(earthQuakes[i]);
-                    }
-                }
-                var oldPlacemarks;
-                for(var i = 0; i< wwd.layers.length; i++)
-                {
-                    if(wwd.layers[i].displayName == "Placemarks")
-                    {
-                        oldPlacemarks = wwd.layers[i];
-                    }
-                }
-                wwd.removeLayer(oldPlacemarks);
-                createPlaceMarks(wwd, newearthquakelist);
-
-            });
-            var earthQuakes = EarthQuakeRetrieval();
-            createPlaceMarks(wwd, earthQuakes);
-
-            var layerManager;
-            layerManager = new LayerManager(wwd);
-            var d = $(document).getElementById("layerList");
-            wwd.redraw();
-
-        }
 
 
 
