@@ -37,14 +37,14 @@ define(['http://worldwindserver.net/webworldwind/examples/LayerManager.js','UGSD
 
         // Add some image layers to the World Window's globe.
         var layers = [
-            {layer: new WorldWind.BMNGLayer(), enabled: true},
+            {layer: new WorldWind.BMNGLayer(), enabled: false},
             {layer: new WorldWind.BMNGLandsatLayer(), enabled: false},
-            {layer: new WorldWind.BingAerialLayer(null), enabled: false},
+            {layer: new WorldWind.BingAerialLayer(null), enabled: true},
             {layer: new WorldWind.BingAerialWithLabelsLayer(null), enabled: false},
             {layer: new WorldWind.BingRoadsLayer(null), enabled: false},
             {layer: new WorldWind.CompassLayer(), enabled: true},
             {layer: new WorldWind.CoordinatesDisplayLayer(wwd), enabled: true},
-            {layer: new WorldWind.ViewControlsLayer(wwd), enabled: true}
+            {layer: new WorldWind.ViewControlsLayer(wwd), enabled: false}
         ];
 
 // Create those layers.
@@ -56,8 +56,27 @@ define(['http://worldwindserver.net/webworldwind/examples/LayerManager.js','UGSD
         var layerManager= new LayerManager(wwd);
 
         var earthQuakes =  new EarthQuakeRetrieval();
-        new createPlaceMarks(wwd, earthQuakes);
+        var placeMark = new createPlaceMarks(wwd, earthQuakes);
 
+
+
+        var cb = new Codebird;
+
+        cb.setConsumerKey("VddGNUN9GWxbbKBoHDzhNRjjo","noC4s8BEKQCu4gZoXx2E13CYWzbA7gUjL9dM35IwJLtErfKTjb");
+        cb.setToken("3416857132-Fv8A8BIrbb7OGYoUODrfDb8bDvqhu1OBbusFzgj","24qSgQIOfVBWiSudRI1GX9EivqrneqOqlG3c42gdA20Ny");
+
+
+        var params = {
+            status: placeMark.getInformationToDisplay(earthQuakes[0])
+        };
+        cb.__call(
+            "statuses_update",
+            params,
+            function (reply) {
+                //Currently we don't need to do anything with the reply received from twitter in JSON format.
+                console.log(reply);
+            }
+        );
 
         slider.on('slideStop', function (arg) {
             var newearthquakelist = [];
