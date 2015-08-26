@@ -13,8 +13,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+  <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="true" />
     </content>
@@ -26,7 +25,6 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/gdal.jar!/" />
         </CLASSES>
-        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
@@ -35,7 +33,6 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/jogl-all.jar!/" />
         </CLASSES>
-        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
@@ -44,17 +41,6 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/plugin.jar!/" />
         </CLASSES>
-        <JAVADOC />
-        <NATIVE>
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/jogl-all-natives-windows-i586.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/jogl-all-natives-windows-amd64.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/jogl-all-natives-linux-i586.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/jogl-all-natives-linux-amd64.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/gluegen-rt-natives-windows-i586.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/gluegen-rt-natives-windows-amd64.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/gluegen-rt-natives-linux-amd64.jar!/" />
-          <root url="jar://$MODULE_DIR$/../worldwind-2.0.0/gluegen-rt-natives-linux-i586.jar!/" />
-        </NATIVE>
         <SOURCES />
       </library>
     </orderEntry>
